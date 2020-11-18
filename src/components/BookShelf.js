@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Book from './Book'
 
-const BookShelf = ({ allBooks, title, value, bookShelfs }) => {
+const BookShelf = ({ title, value, bookShelfs, updateBookShelf, allBooks }) => {
     const booksInShelf = (shelfName) => {
         const books = allBooks.filter(book => {
             return book.shelf === shelfName
@@ -15,15 +15,17 @@ const BookShelf = ({ allBooks, title, value, bookShelfs }) => {
             <h2 className='bookshelf-title'>{title}</h2>
             <div className='bookshelf-books'>
                 <ol className='books-grid'>
-                    {booksInShelf(value).map(book => 
-                    <Book
-                    key={book.id}
-                    book={book}
-                    id={book.id}
-                    imageURL={book.imageLinks.thumbnail}
-                    bookTitle={book.title}
-                    authors={book.authors}
-                    bookShelfs={bookShelfs} />)}
+                    {booksInShelf(value).map(book =>
+                        <Book
+                            key={book.id}
+                            id={book.id}
+                            book={book}
+                            imageURL={book.imageLinks.thumbnail}
+                            authors={book.authors}
+                            bookTitle={book.title}
+                            bookShelfs={bookShelfs}
+                            updateBookShelf={(book) => updateBookShelf(book)}
+                        />)}
                 </ol>
             </div>
         </div>
@@ -31,10 +33,11 @@ const BookShelf = ({ allBooks, title, value, bookShelfs }) => {
 }
 
 BookShelf.propTypes = {
-    allBooks: PropTypes.array.isRequired,
     title: PropTypes.string.isRequired,
     value: PropTypes.string.isRequired,
-    bookShelfs: PropTypes.array.isRequired
+    bookShelfs: PropTypes.array.isRequired,
+    updateBookShelf: PropTypes.func.isRequired,
+    allBooks: PropTypes.array.isRequired
 }
 
 export default BookShelf
