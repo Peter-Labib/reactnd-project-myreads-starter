@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import BookShelfChanger from './UI/BookShelfChanger'
 
-const Book = ({ book, imageURL, authors, bookTitle, bookShelfs, updateBookShelf }) => {
+const Book = ({ book, imageURL, authors, bookTitle, bookShelfs, updateBookShelf, booksInShelfs }) => {
     return (
         <li>
             <div className="book">
@@ -12,6 +12,7 @@ const Book = ({ book, imageURL, authors, bookTitle, bookShelfs, updateBookShelf 
                         book={book}
                         bookShelfs={bookShelfs}
                         updateBookShelf={(book) => updateBookShelf(book)}
+                        booksInShelfs={booksInShelfs}
                     />
                 </div>
                 <div className="book-title">{bookTitle}</div>
@@ -22,11 +23,12 @@ const Book = ({ book, imageURL, authors, bookTitle, bookShelfs, updateBookShelf 
 }
 
 Book.propTypes = {
-    book: PropTypes.object,
+    book: PropTypes.object.isRequired,
     imageURL: PropTypes.string,
     authors: PropTypes.array,
     bookTitle: PropTypes.string,
-    bookShelfs: PropTypes.array
+    bookShelfs: PropTypes.array.isRequired,
+    booksInShelfs: PropTypes.array
 }
 
 export default Book

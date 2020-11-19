@@ -8,7 +8,7 @@ class SearchPage extends Component {
     static propTypes = {
         bookShelfs: PropTypes.array.isRequired,
         addNewBook: PropTypes.func.isRequired,
-        booksList: PropTypes.array.isRequired
+        booksInShelfs: PropTypes.array.isRequired
     }
 
     state = {
@@ -16,18 +16,25 @@ class SearchPage extends Component {
     }
 
     bookListHandler(query) {
-        BooksAPI.search(query.trim()).then(books => {
-            this.setState({
-                booksList: books
+        if (query.trim()) {
+            BooksAPI.search(query).then(books => {
+                this.setState({
+                    booksList: books
+                })
+            }).catch(err => {
+                console.log(err)
             })
-        }).catch(err => {
-            console.log(err)
-        })
-    }
-    componentWillUnmount() {
-        this.setState = () => {
-            return;
-        };
+        } else {
+            this.setState({
+                booksList: []
+            })
+        }
+
+        // }
+        // componentWillUnmount() {
+        //     this.setState = () => {
+        //         return;
+        //     };
     }
     render() {
         return (
@@ -37,6 +44,7 @@ class SearchPage extends Component {
                     bookShelfs={this.props.bookShelfs}
                     updateBookShelf={(book) => this.props.addNewBook(book)}
                     searchResult={this.state.booksList}
+                    booksInShelfs={this.props.booksInShelfs}
                 />
             </div>
         )

@@ -1,14 +1,39 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 
 class BookShelfChanger extends Component {
+    static propTypes = {
+        book: PropTypes.object.isRequired,
+        bookShelfs: PropTypes.array.isRequired,
+        updateBookShelf: PropTypes.func.isRequired,
+        booksInShelfs: PropTypes.array
+    }
+
+    static defaultProps = {
+        booksInShelfs: []
+    }
+    
     state = {
         bookShelf: null
     }
 
     componentDidMount() {
-        this.setState({
-            bookShelf: this.props.book.shelf
+        if (this.checkBookInShelfAlready()[0]) {
+            this.setState({
+                bookShelf: this.checkBookInShelfAlready()[0].shelf
+            })
+        } else {
+            this.setState({
+                bookShelf: this.props.book.shelf
+            })
+        }
+    }
+
+    checkBookInShelfAlready() {
+        const alreadyInShelf = this.props.booksInShelfs.filter(bookInShelf => {
+            return bookInShelf.id === this.props.book.id
         })
+        return alreadyInShelf
     }
 
     bookShelfHandler = (e) => {

@@ -22,8 +22,7 @@ const bookShelfs = [
 
 class BooksApp extends Component {
   state = {
-    books: [],
-    bookList: []
+    books: []
   }
 
   componentDidMount() {
@@ -47,31 +46,23 @@ class BooksApp extends Component {
       .catch(err => console.log(err))
   }
 
-  bookListHandler(query) {
-    BooksAPI.search(query).then(books => {
-      this.setState({
-        bookList: books
-      })
-    }).catch(err => console.log(err))
-  }
-
   render() {
     return (
       <div className="app">
-        <Route path='/' exact render={() => (
+        <Route path='/' exact>
           <HomePage
             bookShelfs={bookShelfs}
             updateBookShelf={this.bookShelfHandler}
             books={this.state.books}
           />
-        )} />
-        <Route path='/search' render={() => (
+        </Route>
+        <Route path='/search'>
           <SearchPage
             bookShelfs={bookShelfs}
             addNewBook={this.bookShelfHandler}
-            booksList={this.state.bookList}
+            booksInShelfs={this.state.books}
           />
-        )} />
+        </Route>
       </div>
     )
   }
